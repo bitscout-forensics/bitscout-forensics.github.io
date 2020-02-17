@@ -71,7 +71,7 @@ help_two_button: Twitter
 help_two_link: https://twitter.com/vkamluk
 
 # Build settings
-theme: minima
+theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
   - jekyll-last-modified-at
