@@ -1,10 +1,10 @@
 ---
 layout: category
 category: docs
-title: Using Bitscout
+title: Bitscout Docs
 ---
 
 
-{% for post in site.categories.docs %}
+{% for post in site.categories.docs reversed %}
   {% include article-card.html %}
 {% endfor %}

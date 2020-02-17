@@ -1,9 +1,9 @@
 ---
 layout: category
 category: quick-try
-title: Bitscout Pre-Built Images
+title: Quick Try
 ---
 
-{% for post in site.categories.quick-try %}
+{% for post in site.categories.quick-try reversed %}
   {% include article-card.html %}
 {% endfor %}

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Bitscout License and Distribution"
-date: 2020-02-13
+date: 2020-02-15
 category: intro
 author: vitaly
 short-description: Bitscout project license agreement

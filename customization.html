@@ -4,6 +4,6 @@ category: customization
 title: Customizing Bitscout
 ---
 
-{% for post in site.categories.customization %}
+{% for post in site.categories.customization reversed %}
   {% include article-card.html %}
 {% endfor %}

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Advanced Usage"
-date: 2020-02-15
+date: 2020-02-16
 category: docs
 author: vitaly
 short-description: Bitscout Advanced Usage

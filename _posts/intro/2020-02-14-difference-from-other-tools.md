@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "How Bitscout is different from other tools"
-date: 2020-02-15
+date: 2020-02-14
 category: intro
 author: nicolas
 short-description: Why you should consider switching to Bitscout from your commercial tools

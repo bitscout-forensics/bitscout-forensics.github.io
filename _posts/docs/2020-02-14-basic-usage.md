@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "Basic Usage"
-date: 2020-02-15
+date: 2020-02-14
 category: docs
 author: vitaly
 short-description: Bitscout Basic Usage
 ---
 
 -----
+This article describes how to build, configure infrastructure and use Bitscout for real world remote forensics. If you have just started you may skip some steps, which you do not require.
 
 # Prerequisites #  
 If you are new to Bitscout concept, make sure you go through the Glossary to understand some of the terms used below.  
