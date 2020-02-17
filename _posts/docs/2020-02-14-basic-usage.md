@@ -25,8 +25,10 @@ Once you have Ubuntu running, start a terminal and follow the instructions below
 `$ ./automake.sh`  
 The process will ask you basic questions regarding designated size of image, custom kernel and VPN settings. When the process is finished you shall find a freshly generated ISO file in current directory.  
   
-If you are unsure if you are doing it right, watch this video of an old version build process. You building process should be somewhat similar:  
-https://www.youtube.com/watch?v=knA0NS9tWsY
+If you are unsure if you are doing it right, watch this ASCII video showing a building process for Bitscout 18.04. You building process should be somewhat similar:  
+<link rel="stylesheet" type="text/css" href="/assets/asciinema-player.css" />
+<asciinema-player cols="80" preload src="/assets/casts/bitscout18.04_automake.cast"></asciinema-player>
+<script src="/assets/asciinema-player.js"></script>
 
 Note:  
 The ISO creation may take from minutes to several hours depending on your internet bandwidth, preferences set in the beginning of the process and computing power of your PC.  
