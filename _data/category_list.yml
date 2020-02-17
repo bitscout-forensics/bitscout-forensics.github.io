@@ -1,0 +1,26 @@
+intro:
+  name: What is Bitscout
+  description: Welcome to Bitscout, time to get started
+quick-try:
+  name: Quick Try
+  description: Quick download of pre-built Bitscout images
+docs:
+  name: Using Bitscout
+  description: Description of Bitscout architecture and its components
+news:
+  name: News & Updates
+  description: Description of Bitscout architecture and its components
+
+customization:
+  name: Customization
+  description: Building your own custom flavor Bitscout image
+presentations:
+  name: Presentations
+  description: Conference talks and presentations about Bitscout
+training:
+  name: Training
+  description: Learn about Bitscout from the authors
+join-us:
+  name: Join Us
+  description: How to contribute and collaborate
+
