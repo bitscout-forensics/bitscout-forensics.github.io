@@ -14,20 +14,20 @@ Note: We do not recommend to use pre-built images for any of your real operation
 
 Here is the list of pre-build images for your convenience  
 
-[Bitscout 20.04 MINIMAL](https://mega.nz/#!X5Am2KaS!sMFReC7gUVvmwCuKxmdxPZulhHnfnS5uqRQjS0VHZHQ){: .btn .btn-red }  
+[Bitscout 20.04 MINIMAL](https://mega.nz/#!P1hRwYDC!3UayKZ2Owqwt7T6uYvQ_VF4-wm2Rsi9OQFJxdMjotf4){: .btn .btn-red }  
 **Size:** 522MB  
 **Description:** This image includes bare minimum of linux kernel, modules, firmware and contain almost no tools. The minimal build is used when you need to transfer the image fast and install the tools in the RAM after Bitscout is booted. Note that the tools will need to be re-installed every time Bitscout is rebooted.  
-**SHA256:** fde7b63089dafb7b8c0ecc4f07e6a033713e639215b4f1943ab5bc81b4751a05
+**SHA256:** 9aed3e0a7e8b8516b8b7d508f8e02e1dc7a53fb328cffe8959a41dc3ab71b2d7
 
-[Bitscout 20.04 BALANCED](https://mega.nz/#!2xJQxKDa!zWlLVr3SKFdsSv1cLFds6rAXmfNWmk-kaIAolNzVkvI){: .btn .btn-red }  
+[Bitscout 20.04 BALANCED](https://mega.nz/#!3ohHxaqR!oqqEHeh3LNthRhUkLzJl1rY8_BgXDkg1sspaMbQjWz4){: .btn .btn-red }  
 **Size:** 614MB  
 **Description:** This image includes some of the most essential forensic tools on top of minimal build. If it doesn't contain your tools, you may add them manually to keep the ISO size relatively small or go for the largest build below.  
-**SHA256:** c305464c5ea7b009e309c34900faa581790a5490925c8a9fadb6203c09b19943
+**SHA256:** 55517cda8819bc77a4659daa4d5463041d38629e5b22701e629190399fd9ef98
 
-[Bitscout 20.04 FULL](https://mega.nz/#!75Qm1axC!yJXjE9xKwT8TG3SDmLhPHZoGRtn9l_tFUcVnoQNBbrU){: .btn .btn-red }  
+[Bitscout 20.04 FULL](https://mega.nz/#!3swnAYRS!3UjkrpSMUd-sovwiSm0Ooh4RduFt-PDbpKKzh3PeauM){: .btn .btn-red }  
 **Size:** 1.5GB  
 **Description:** This image contains forensics-all meta-package from Ubuntu, which contains merely all command-line forensics tools available from official repositories. In addition, it is extended with few other open-source tools which didn't make it to the OS repositories, such as Loki, RegParser, and more.  
-**SHA256:** cf1b1391a8ef9797b21b039d48157f1d48451337d1e62488ee608f485a67101b
+**SHA256:** 1f51a8b66c64cee36f4eeb65d5df7065653053892d2b4d6f8d31e2f932403e3c
 
 
 ### GETTING ACCESS ###   
