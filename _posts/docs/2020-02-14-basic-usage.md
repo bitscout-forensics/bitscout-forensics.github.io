@@ -6,15 +6,24 @@ category: docs
 author: vitaly
 short-description: Bitscout Basic Usage
 ---
-
 -----
+<link rel="stylesheet" type="text/css" href="/assets/asciinema-player.css" />
+<script src="/assets/asciinema-player.js"></script>
 This article describes how to build, configure infrastructure and use Bitscout for real world remote forensics. If you have just started you may skip some steps, which you do not require.
 
-# Prerequisites #  
-If you are new to Bitscout concept, make sure you go through the Glossary to understand some of the terms used below.  
+# Overview #  
+Here are the steps to make your own Bitscout environment:
+1. Build an ISO file
+1. Make bootable media from the ISO
+1. Setup Bitscout server  
+    1. Install OpenVPN **\[important]**
+    1. Install chat server \[optional]
+    1. Install syslog server \[optional]
 
+# Prerequisites #  
+If you are new to Bitscout concept, make sure you go through the [Glossary](/docs/glossary) to understand some of the terms used below.  
 # Preparing Bitscout ISO File #  
-To generate new ISO file you will need Ubuntu system (tested on Ubuntu 18.04). If you are running on MacOS X or Windows, you can boot from Ubuntu Live CD instead (download at https://www.ubuntu.com/download/desktop) or install it on a virtual machine.  
+To generate new ISO file you will need Ubuntu system (tested on Ubuntu 18.04). If you are running on MacOS X or Windows, you can boot from Ubuntu Live CD instead ([download here](https://www.ubuntu.com/download/desktop)) or install it on a virtual machine.  
 Once you have Ubuntu running, start a terminal and follow the instructions below:  
 1. Install git  
 `$ sudo apt-get install git`
@@ -26,17 +35,28 @@ Once you have Ubuntu running, start a terminal and follow the instructions below
 The process will ask you basic questions regarding designated size of image, custom kernel and VPN settings. When the process is finished you shall find a freshly generated ISO file in current directory.  
   
 If you are unsure if you are doing it right, watch this ASCII video showing a building process for Bitscout 18.04. You building process should be somewhat similar:  
-<link rel="stylesheet" type="text/css" href="/assets/asciinema-player.css" />
 <asciinema-player cols="80" preload src="/assets/casts/bitscout18.04_automake.cast"></asciinema-player>
-<script src="/assets/asciinema-player.js"></script>
+Should you encounter any problems with the build, it should generally stop and the full log of the process will be available at `./automake.log` file of the build directory.
 
 Note:  
 The ISO creation may take from minutes to several hours depending on your internet bandwidth, preferences set in the beginning of the process and computing power of your PC.  
 If you want just to play with Bitscout or use for quick research, we suggest to build medium size ISO without custom kernel compilation. This shall save you time for building while including some essential tools in the system. However, if you need to use Bitscout for real world forensics, we strongly recommend to use custom kernel at least (may increase ISO creation time for 3 hours on a single core CPU). Custom kernel includes kernel write-blocker patches to avoid accidental or unintended disk modification (for more information see https://github.com/msuhanov/Linux-write-blocker).  
 
 Note 2:
-Bitscout was first publicly released based on Ubuntu Xenial (16.04) and we still keep other branches in the Github repository. Feel free to switch to older branches and build an older version if you need. Just use the identical host system when building. To clone 16.04 branch, simply run:  
+Bitscout was first publicly released based on Ubuntu Xenial (16.04) and we still keep other branches in the Github repository. Feel free to switch to other branches and build an older version if you need. Preferably use the identical Ubuntu OS version on the host where ypu build. To clone and build specific branch, just specify is it as folows (i.e. for branch "18.04"):  
 `git clone -b 18.04`  
+
+# Testing your ISO #  
+If you have successfully built your ISO, you may burn it to the real CD, USB and test with real hardware. However, it's faster and more convenient to boot it on a VM first. This way you may quicker modify, rebuild and test again. Bitscout comes with an autotesting script that verifies core features and services, including:
+* System login prompt
+* Container running state
+* VPN service 
+* Privileged execution service
+* History logger service
+* Container SSH service
+You may try it yourself by running `./autotest.sh` and see the testing process spawning an instance of Qemu and emulating user input via serial port. Here is how it should look like for Bitscout 18.04:
+<asciinema-player cols="112" preload src="/assets/casts/bitscout18.04_autotest.cast"></asciinema-player>
+Once it goes through interactive tmux session, it will finish with the brief summary of results. You may find full log of autotesting in `./autotest.log` file in the build directory.
 
 # Creating Bootable Media #
 Bitscout ISO file is a hybrid image file, which can be used to create bootable CD or USB drive. Once you have the ISO file you can burn this image on a CD using the same Ubuntu system used for building. You can use simple CD-burning software called Brasero which comes with Ubuntu.  
@@ -52,12 +72,11 @@ The following instructions assume that you are running Debian-based Linux server
 ## Setup OpenVPN ##  
 1. Install openvpn package  
 `$ sudo apt-get install openvpn`  
-1. Copy your OpenVPN config and keys from Bitscout build machine (bitscout/exports/etc/openvpn/) to /etc/openvpn/.  
+1. Copy your OpenVPN config and keys from Bitscout build machine (./exports/etc/openvpn/) to /etc/openvpn/.  
 1. Start OpenVPN instance  
 `$ sudo systemctl start openvpn@scout.service`  
   
-For more information or troubleshooting, please see official OpenVPN HowTo at  
-https://openvpn.net/index.php/open-source/documentation/howto.html. 
+For more information or troubleshooting, please see official [OpenVPN HowTo](https://openvpn.net/index.php/open-source/documentation/howto.htm).
   
 ## Additional OpenVPN Users ##  
 To add more users who can connect to your VPN server, you need to generate certificates for them or use shared certificates.  
@@ -87,7 +106,7 @@ This solution is not recommended because it may be hard to track which user was 
 As far as Bitscout suggests remote cooperation of 2+ users it makes sense to use simple chat to coordinate actions. We suggest to use lightweight IRC communication for that.  
 1. Install IRC service  
 `$ sudo apt-get install ngircd`  
-1. Copy ngircd.conf file from Bitscout build machine (bitscout/exports/etc/irc/ngircd.conf)  
+1. Copy ngircd.conf file from Bitscout build machine (./exports/etc/irc/ngircd.conf)  
 1. Start IRC service  
 `$ sudo systemctl start ngircd.service`  
 
@@ -160,18 +179,26 @@ Similarly there is **umount.priv** that is used to unmount filesystems.
 
 # Using Bitscout #  
 ## Disk Acquisition ##  
-Below is the description of a remote disk image acquisition process using Bitscout, where the system owner is non-experienced commandline user (relies on Bitscout management tool only). 
-### The owner ###  
+Below is the description of a remote disk image acquisition process using Bitscout, where the system owner is non-experienced commandline user (relies on Bitscout management tool only).
+### The owner enables disk access ###  
 1. Maps the evidence drive from host to the experts container using Bitscout management tool (see Disk Operations above).
 Let's assume that it was mapped as evidence0.  
 1. Attaches output storage device (can be removable USB hdd) to the host system.  
 1. Maps the attached output storage partition to writable device on the container. Lets assume it is mapped as storage0.  
-### The expert ###  
+### The expert acquires the image ###  
 1. Mounts the attached output drive filesystem on local directory (i.e. /mnt/storage0).
 1. Acquires disk image using dd or it's clone. For example:  
-`# dc3dd if=/dev/host/evidence0 of=/mnt/storage0/image.dd bs=4k hash=md5 log=/mnt/storage0/image.dd.log progress=on`
+`# dc3dd if=/dev/host/evidence0 of=/mnt/storage0/image.dd ssz=4k hash=md5 log=/mnt/storage0/image.dd.log`
 1. Unmounts the output filesystem.  
-### The owner ###  
+### The owner disables disk access ###  
 1. Unmaps evidence0 and storage0.
 1. Disconnects the output storage device.
+
+
+---
+## Demo ##
+Here is how it looks from the system owner's (left terminal) and the expert's (right terminal) point of view. The expert is going to copy just 4MB of disk data to an external drive once the owner maps (attaches) the subject (/dev/vda) and the external drive (SanDisk USB on /dev/sda).
+<asciinema-player cols="127" preload src="/assets/casts/bitscout20.04_demo_dd.cast"></asciinema-player>  
+
+Note, that in this case the expert is using privileged mount command to mount writeable external storage. Such commands shall be avoided where possible, and are disabled by default. The owner enables "privileged mode" on demand from the expert and may review what commands were executed to control what is going on. The "mount.priv" command is limited to a list of filesystems and in general cannot be used to mount read-only evidence disks. However, this is controlled by the tool, which is why should be considered a sensitive zone and disabled at all times when not required.
 
