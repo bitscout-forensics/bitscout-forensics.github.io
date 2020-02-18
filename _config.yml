@@ -54,7 +54,7 @@ nav_item_three: #
 nav_item_three_link: #
 
 nav_button_one: Quick Try 
-nav_button_one_link: quick-try/images 
+nav_button_one_link: quick-try/prebuilt-images 
 
 nav_button_two: Training
 nav_button_two_link: training/training-sas2020
