@@ -13,7 +13,7 @@ short-description: Network architecture used in Bitscout
 A running Bitscout instance uses multiple network interfaces and if you are an expert using it, you shall understand how the network communication is designed.
 
 ## Network Interfaces ##
-![](https://i.ibb.co/R9mHQCW/network-interfaces-20-04.png){: .img-responsive }
+![](/assets/network_interfaces_20.04.png){: .img-responsive }
 
 ### Host Interfaces ###
 Physical interfaces on the host system may include but are not limited with Ethernet and Wifi network cards, which are named by default as following:  
@@ -42,3 +42,5 @@ tcp port 2009 (VPN) => tcp port 2009 (container)
   
 The port 22 is used for SSH service, while ports 2000-2009 are reserved for other services, which the expert may use, such as network block device service or anything else.
 
+## Network Configuration ##
+Bitscout is mainly relying on iptables, which is setup during system startup via `/sbin/host-iptables` script (`./resources/sbin/host-iptables` in the Bitscout build directory.) Feel free to modify the file to your needs.

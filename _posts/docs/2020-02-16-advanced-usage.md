@@ -71,4 +71,5 @@ After that the **/dev/nbd0** will contain data mapped from the remote export on 
 `# dc3dd if=/dev/nbd0 hash=md5 of=./evidence0.dd log=./evidence0.dd.log`  
 The evidence0.dd.log file will contain MD5 of the transfered disk image once the operation is completed.
 
-
+---
+TO BE CONTINUED...
