@@ -4,7 +4,7 @@ title: "Basic Usage"
 date: 2020-02-14
 category: docs
 author: vitaly
-short-description: Bitscout Basic Usage
+short-description: Building Bitscout ISO, and basic environment
 ---
 -----
 <link rel="stylesheet" type="text/css" href="/assets/asciinema-player.css" />
@@ -13,7 +13,7 @@ This article describes how to build, configure infrastructure and use Bitscout f
 
 # Overview #  
 Here are the steps to make your own Bitscout environment:
-1. Build an ISO file
+1. Build and test your ISO file
 1. Make bootable media from the ISO
 1. Setup Bitscout server  
     1. Install OpenVPN **\[important]**
@@ -21,7 +21,8 @@ Here are the steps to make your own Bitscout environment:
     1. Install syslog server \[optional]
 
 # Prerequisites #  
-If you are new to Bitscout concept, make sure you go through the [Glossary](/docs/glossary) to understand some of the terms used below.  
+If you are new to Bitscout concept, make sure you go through the [Glossary](/docs/glossary) to understand some of the terms used below.  You should be familiar with Linux commandline. We haven't tested Bitscout on all distributives, so if you are note using recent Ubuntu, you are on your own and building process will most likely fail. Bitscout requires superuser privileges to be able to install some required packages on your building host system, so if you are not comfortable with that, please build on a VM, inside a container, or even from running Ubuntu LiveCD.
+
 # Preparing Bitscout ISO File #  
 To generate new ISO file you will need Ubuntu system (tested on Ubuntu 18.04). If you are running on MacOS X or Windows, you can boot from Ubuntu Live CD instead ([download here](https://www.ubuntu.com/download/desktop)) or install it on a virtual machine.  
 Once you have Ubuntu running, start a terminal and follow the instructions below:  
@@ -35,7 +36,7 @@ Once you have Ubuntu running, start a terminal and follow the instructions below
 The process will ask you basic questions regarding designated size of image, custom kernel and VPN settings. When the process is finished you shall find a freshly generated ISO file in current directory.  
   
 If you are unsure if you are doing it right, watch this ASCII video showing a building process for Bitscout 18.04. You building process should be somewhat similar:  
-<asciinema-player cols="80" preload src="/assets/casts/bitscout18.04_automake.cast"></asciinema-player>
+<asciinema-player cols="120" preload src="/assets/casts/bitscout18.04_automake.cast"></asciinema-player>
 Should you encounter any problems with the build, it should generally stop and the full log of the process will be available at `./automake.log` file of the build directory.
 
 Note:  
@@ -194,11 +195,19 @@ Let's assume that it was mapped as evidence0.
 1. Unmaps evidence0 and storage0.
 1. Disconnects the output storage device.
 
-
----
 ## Demo ##
 Here is how it looks from the system owner's (left terminal) and the expert's (right terminal) point of view. The expert is going to copy just 4MB of disk data to an external drive once the owner maps (attaches) the subject (/dev/vda) and the external drive (SanDisk USB on /dev/sda).
 <asciinema-player cols="127" preload src="/assets/casts/bitscout20.04_demo_dd.cast"></asciinema-player>  
 
 Note, that in this case the expert is using privileged mount command to mount writeable external storage. Such commands shall be avoided where possible, and are disabled by default. The owner enables "privileged mode" on demand from the expert and may review what commands were executed to control what is going on. The "mount.priv" command is limited to a list of filesystems and in general cannot be used to mount read-only evidence disks. However, this is controlled by the tool, which is why should be considered a sensitive zone and disabled at all times when not required.
+
+## Copying Files ## 
+Sometime you need to copy files from the expert to a running Bitscout instance and vice versa. The best way is to use SCP for this. Let's assume we need to transfer a file called **file.dat** to Bitscout container and save it to **/root/file.dat**. If you are in the Bitscout build directory, try using a command like shown below:  
+`scp -i ./exports/expert/etc/ssh/scout ./file.dat root@10.1.0.2:/root/file.dat`
+
+To copy file to the Bitscout LiveOS host (given that host control is enabled), simply specify SSH service port 23. Also, note that it is allowed to connect as user not 'root' to the Bitscout host.  
+`scp -P23 -i ./exports/expert/etc/ssh/scout ./file.dat user@10.1.0.2:/home/user/file.dat`
+ 
+And in case you were transferring a large file from the Bitscout host /home/user/file.dat to the expert at /home/expert/file.dat while network connection was unexpectedly interrupted, you may use the following command to resume the transfer:  
+`rsync --rsh='ssh -i ./exports/expert/etc/ssh/scout -p23' -av --progress --partial user@10.1.0.2:/home/user/file.dat /home/expert/file.dat`
 

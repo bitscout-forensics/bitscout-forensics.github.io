@@ -43,18 +43,20 @@ If the disk is large or the network is slow you can use "pv" tool to monitor the
 If the network is unstable you may want to make use of the whole block device. It's also very useful in other scenarios, such as booting a virtual machine from the remote disk drive on the expert's host. In this case you need to use NBD (network block device) service. Starting from the medium size build, Bitscout comes with pre-installed nbd-server. Here is how you can make block device on the container appear locally on the expert's host:
 1. On the container, mark the designated block device for export via nbd-server.  
 Edit **/etc/nbd-server/config** to open start nbd-server listening on VPN-accessible port and add device information to export. Here is sample configuration file that does it:  
-`[generic]`  
-`# If you want to run everything as root rather than the nbd user, you`  
-`# may either say "root" in the two following lines, or remove them`  
-`# altogether. Do not remove the [generic] section, however.`  
-`        user = nbd`  
-`        group = nbd`  
-`        includedir = /etc/nbd-server/conf.d`  
-`        port = 2000`  
-`# What follows are export definitions. You may create as much of them as`  
-`# you want, but the section header has to be unique.`  
-`[export]`  
-`exportname = /dev/host/evidence0`  
+<pre>
+  [generic]  
+  # If you want to run everything as root rather than the nbd user, you  
+  # may either say "root" in the two following lines, or remove them  
+  # altogether. Do not remove the [generic] section, however.  
+    user = nbd  
+    group = nbd 
+    includedir = /etc/nbd-server/conf.d  
+    port = 2000  
+  # What follows are export definitions. You may create as much of them as  
+  # you want, but the section header has to be unique.  
+  [export]  
+    exportname = /dev/host/evidence0  
+</pre>
 
 1. restart nbd-server on the container:  
 `# systemctl restart nbd-server.service`  
