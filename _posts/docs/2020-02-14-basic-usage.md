@@ -195,7 +195,7 @@ Let's assume that it was mapped as evidence0.
 1. Unmaps evidence0 and storage0.
 1. Disconnects the output storage device.
 
-## Demo ##
+### Demo ###  
 Here is how it looks from the system owner's (left terminal) and the expert's (right terminal) point of view. The expert is going to copy just 4MB of disk data to an external drive once the owner maps (attaches) the subject (/dev/vda) and the external drive (SanDisk USB on /dev/sda).
 <asciinema-player cols="127" preload src="/assets/casts/bitscout20.04_demo_dd.cast"></asciinema-player>  
 

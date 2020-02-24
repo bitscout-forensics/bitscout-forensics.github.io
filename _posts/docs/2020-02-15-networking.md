@@ -62,4 +62,4 @@ tcp port 2009 (VPN) => tcp port 2009 (container)
 The port 22 is used for SSH service, while ports 2000-2009 are reserved for other services, which the expert may use, such as network block device service or anything else.
 
 ## Customizing the Firewall ##
-Bitscout is mainly relying on iptables, which is setup during system startup via `/sbin/host-iptables` script (`./resources/sbin/host-iptables` in the Bitscout build directory.) Feel free to modify the file to your needs.
+Bitscout is mainly relying on iptables, which is setup during system startup via `/sbin/host-iptables` script (`./resources/sbin/host-iptables` in the Bitscout build directory). Feel free to modify the file to your needs.
