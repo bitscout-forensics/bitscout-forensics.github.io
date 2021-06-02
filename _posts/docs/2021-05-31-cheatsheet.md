@@ -70,7 +70,7 @@ Super key: **Ctrl+B**
 Start example **`guestfish --ro -a /dev/host/evidence0`**  
 
 Interactive commands:  
-**`insepct-os`** - find the OS main parition  
+**`inspect-os`** - find the OS main parition  
 **`mount /dev/sda2 /`** - mount the discovered /dev/sda2 partition  
 **`ls win:C:\`** - list system drive C:\ of Windows OS  
 **`download win:C:\dir\file ./file`** - get file from guestfs  
