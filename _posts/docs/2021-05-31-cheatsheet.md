@@ -33,7 +33,10 @@ Note: use a VNC/SPICE client on your host to connect to Bitscout IP on port 2001
 Example cmline on Linux:  
   * `remote-viewer spice://192.168.1.1:2001`  
   * `remote-viewer vnc://192.168.1.1:5900`  
-  
+
+* Start Windows10 with 1GB RAM and faster CPU  
+**`qemu-system-x86_64 -enable-kvm -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -smp 4,sockets=1,cores=4,threads=1 -m 1024 -boot strict=on -drive file=./evidence0.qcow2,format=qcow2,if=ide,id=drive-virtio-disk0 -monitor stdio -vnc :0 -spice port=2001,disable-ticketing -vga cirrus`**  
+
 * Start basic VM from a qcow2 file (with SPICE display and SMB file sharing):  
 **`qemu-system-x86_64 -enable-kvm -cpu host -m 512 -boot strict=on -drive file=./evidence0.qcow2,format=qcow2,if=ide,id=drive-virtio-disk0 -monitor stdio -spice port=2001,disable-ticketing -vga cirrus -net user,net=10.0.2.3/24,smb=/root/smb,smbserver=10.0.2.4,id=usernet,restrict=y`**  
 Note: use a VNC client on your host to connect to Bitscout IP on port 2001
