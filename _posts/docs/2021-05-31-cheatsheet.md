@@ -23,6 +23,7 @@ Note: Use **q** key to exit the viewer
 **`machinectl stop/start container`**  
 
 ### Working in Bitscout expert shell ###  
+#### Dealing with QEMU/QCOW2 ####  
 * Create copy-on-write (qcow2) virtual disk based on another device/file:  
 **`qemu-img create -f qcow2 -o backing_file=/dev/host/evidence0,backing_fmt=raw ./evidence0.qcow2`** 
 * Create qcow2 virtual disk file based on another qcow2 file:  
@@ -43,6 +44,23 @@ Note: use a VNC client on your host to connect to Bitscout IP on port 2001
 
 * Show qemu process sorted memory map:  
 **`cat /proc/$(pgrep qemu)/maps | cut -d' ' -f1 | awk -F- '{print (strtonum("0x" $2)-strtonum("0x" $1))" "$0 }' | sort -n`**  
+
+
+* Connect a disk in qcow2 format to a local block device  
+**`qemu-nbd -c /dev/nbd0 ./evidence0.qcow2`**  
+Note: Make sure nbd module is loaded and /dev/nbd* devices are present (run `modprobe nbd` if not)  
+Now you can work with the disk via /dev/nbd0 local block device.
+
+* Disconnect qcow2 from a local block device  
+**`qemu-nbd -d /dev/nbd0`**  
+
+* Export a qcow2 file over the network via NBD protocol  
+**`qemu-nbd -p 2001 ./evidence0.qcow2`**  
+Note: the NBD service becomes available over TCP port 2001. Add `-f` to fork (put the service in the background).  
+
+* Connect a remote NBD export on port 2001 to a local NBD device  
+**`nbd-client %IP% 2001 /dev/nbd0`**  
+
 
 ### Shortcuts and commands for tmux ###  
 Super key: **Ctrl+B**  
