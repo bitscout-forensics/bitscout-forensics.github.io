@@ -40,7 +40,7 @@ Example cmline on Linux:
 
 * Start basic VM from a qcow2 file (with SPICE display and SMB file sharing):  
 **`qemu-system-x86_64 -enable-kvm -cpu host -m 512 -boot strict=on -drive file=./evidence0.qcow2,format=qcow2,if=ide,id=drive-virtio-disk0 -monitor stdio -spice port=2001,disable-ticketing -vga cirrus -net user,net=10.0.2.3/24,smb=/root/smb,smbserver=10.0.2.4,id=usernet,restrict=y`**  
-Note: use a VNC client on your host to connect to Bitscout IP on port 2001
+Note: use a VNC client on your host to connect to Bitscout IP on port 2001  
 
 * Show qemu process sorted memory map:  
 **`cat /proc/$(pgrep qemu)/maps | cut -d' ' -f1 | awk -F- '{print (strtonum("0x" $2)-strtonum("0x" $1))" "$0 }' | sort -n`**  
@@ -111,10 +111,10 @@ Windows 10 32-bit "sethc.exe...":
 Replacement pattern with "cmd.exe":  
 **`63006d0064002e0065007800650000000000200025006c006400000063006d0064002e00650078006500000000`**  
 
-Windows Server 2008/Windows 7 32-bit "sethc.exe...":
-**`730065007400680063002E006500780065000000730065007400680063002E00650078006500200025006C0064000000`**
+Windows Server 2008/Windows 7 32-bit "sethc.exe...":  
+**`730065007400680063002E006500780065000000730065007400680063002E00650078006500200025006C0064000000`**  
 Replacement pattern with "cmd.exe":  
-**`63006D0064002E0065007800650000000000000063006D0064002E0065007800650000000000200025006C0064000000`**
+**`63006D0064002E0065007800650000000000000063006D0064002E0065007800650000000000200025006C0064000000`**  
 
 Other variants to try "sethc.exe...":  
 **`730065007400680063002E00650078006500200025006C0064000000`**  
