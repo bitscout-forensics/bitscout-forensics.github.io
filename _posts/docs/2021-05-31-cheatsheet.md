@@ -35,8 +35,11 @@ Example cmline on Linux:
   * `remote-viewer spice://192.168.1.1:2001`  
   * `remote-viewer vnc://192.168.1.1:5900`  
 
-* Start Windows10 with 2GB RAM and faster CPU (6 cores)  
+* Start with 2GB RAM and faster CPU (6 cores)  
 **`qemu-system-x86_64 -enable-kvm -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -smp 6,sockets=1,cores=6,threads=1 -m 2048 -boot strict=on -drive file=./evidence0.qcow2,format=qcow2,if=ide,id=drive-virtio-disk0 -monitor stdio -vnc :0 -spice port=2001,disable-ticketing -vga cirrus -device usb-ehci,id=usb,bus=pci.0,addr=0x4 -device usb-tablet`**  
+
+* Boot Bitscout within itself on 1GB RAM, 3 cores, and port 2003 forwarded to port 23 from the outside to the guest:
+**`qemu-system-x86_64 -enable-kvm -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time -smp 3,sockets=1,cores=3,threads=1 -m 1024 -boot d -cdrom /dev/sr0 -drive file=./evidence0.qcow2,format=qcow2,if=ide,id=drive-virtio-disk0 -monitor stdio -vnc :0 -spice port=2001,disable-ticketing -vga cirrus -device usb-ehci,id=usb,bus=pci.0,addr=0x4 -device usb-tablet`**  
 
 * Start basic VM from a qcow2 file (with SPICE display and SMB file sharing):  
 **`qemu-system-x86_64 -enable-kvm -cpu host -m 512 -boot strict=on -drive file=./evidence0.qcow2,format=qcow2,if=ide,id=drive-virtio-disk0 -monitor stdio -spice port=2001,disable-ticketing -vga cirrus -net user,net=10.0.2.3/24,smb=/root/smb,smbserver=10.0.2.4,id=usernet,restrict=y`**  
@@ -60,6 +63,22 @@ Note: the NBD service becomes available over TCP port 2001. Add `-f` to fork (pu
 
 * Connect a remote NBD export on port 2001 to a local NBD device  
 **`nbd-client %IP% 2001 /dev/nbd0`**  
+
+
+### Remapping logical disk ###  
+* Transparently strip Bitlocker encryption from one of the partitions (/dev/sda2)  
+**`HDD_SIZE=$(blockdev --getsize /dev/sda)`**  
+**`PARTITION_OFFSET=$(fdisk -l /dev/sda | awk '/^\/dev\/sda2/{print $2}')`**  
+**`PARTITION_SIZE=$(fdisk -l /dev/sda | awk '/^\/dev\/sda2/{print $4}')`**  
+**`mkdir /mnt/dislocker`**  
+**`dislocker -O $[512*$PARTITION_OFFSET] -pPUT-YOUR-BITLOCKER-RECOVERY-KEY-HERE /dev/sda /mnt/dislocker/`**  
+**`losetup -r /dev/loop1 /mnt/dislocker/dislocker-file`**  
+**`dmsetup create remapped <<EOF`**  
+**`0 $PARTITION_OFFSET linear /dev/sda 0`**  
+**`$PARTITION_OFFSET $PARTITION_SIZE linear /dev/loop1 0`**  
+**`$[$PARTITION_OFFSET+$PARTITION_SIZE] $[$HDD_SIZE-$PARTITION_OFFSET-$PARTITION_SIZE] linear /dev/sda $[$PARTITION_OFFSET+$PARTITION_SIZE]`**  
+**`EOF`**  
+Note: Use `partprobe /dev/mapper/remapped` to detect partitions on the new disk
 
 
 ### Shortcuts and commands for tmux ###  
