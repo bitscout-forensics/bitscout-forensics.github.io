@@ -1,6 +1,6 @@
 ---
 layout: post
-title: New Major Relase
+title: New Major Release (20.04)
 date: 2020-02-15
 category: news
 author: vitaly
@@ -9,7 +9,7 @@ short-description: Bitscout 20.04 is ready!
 
 -----
 
-# New Bitscout Release #  
+# New Bitscout 20.04 Release #  
 We are glad to announce that the first version of Bitscout 20.04 is ready. Based on Ubuntu 20.04 (Focal Fossa) available for developers since January 2020 new Bitscout is even more compatible with variety of hardware, and includes updated forensic tools. In this release we have moved away from LXD container management which used to be an overhead in the past versions. The new container is based on systemd-nspawn feature which is already part of OS anyway.
 
 To build Bitscout 20.04 you may use Ubuntu 20.04, but it also works fine on older Ubuntu 18.04 too.
