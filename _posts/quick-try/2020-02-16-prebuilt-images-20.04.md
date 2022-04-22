@@ -1,10 +1,10 @@
 ---
 layout: post
-title: Download Pre-Built Images
+title: Quick Try Bitscout 20.04
 date: 2020-02-16
 category: quick-try
 author: vitaly
-short-description: Where to download sample Bitscout ISO image
+short-description: Where to download sample ISO image of an older Bitscout
 ---
 
 -----
