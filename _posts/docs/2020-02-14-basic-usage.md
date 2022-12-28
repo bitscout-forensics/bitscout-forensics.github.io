@@ -211,3 +211,4 @@ To copy file to the Bitscout LiveOS host (given that host control is enabled), s
 And in case you were transferring a large file from the Bitscout host /home/user/file.dat to the expert at /home/expert/file.dat while network connection was unexpectedly interrupted, you may use the following command to resume the transfer:  
 `rsync --rsh='ssh -i ./exports/expert/etc/ssh/scout -p23' -av --progress --partial user@10.1.0.2:/home/user/file.dat /home/expert/file.dat`
 
+

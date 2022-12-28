@@ -9,6 +9,13 @@ short-description: Quick reference to useful commands for Bitscout
 -----
 
 # Useful commands #  
+### General Linux tips ###  
+* Load a national keyboard layout (not the same as switching locale)  
+**`loadkeys us`**  
+**`loadkeys fr`**  
+**`loadkeys de`**  
+...
+
 ### Working in Bitscout host shell ###  
 * Show IP addresses of existing interfaces:  
 **`ip a s`** 
